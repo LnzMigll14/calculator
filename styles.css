@@ -1,0 +1,182 @@
+/* Import the fonts used by the calculator. */
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Space+Grotesk:wght@300..700&display=swap");
+
+/* Reusable values make colors and animation timing easier to update. */
+:root {
+  --color-background: #0c0c0f;
+  --color-text: #ffffff;
+  --color-muted: rgba(255, 255, 255, 0.6);
+  --color-border: rgba(255, 255, 255, 0.18);
+  --ease-out: ease-out;
+}
+
+/* Apply predictable sizing to every element. */
+* {
+  box-sizing: border-box;
+}
+
+/* Base page styles */
+html {
+  min-width: 320px;
+  background-color: var(--color-background);
+}
+
+body {
+  margin: 0;
+  color: var(--color-text);
+  font-family: "Space Grotesk", sans-serif;
+  transition:
+    background-color 180ms var(--ease-out),
+    color 180ms var(--ease-out);
+}
+
+button {
+  font: inherit;
+}
+
+/* Center the calculator on the page. */
+.page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 1rem;
+}
+
+/* Main calculator component */
+.calculator {
+  width: min(100%, 790px);
+}
+
+/* Calculator heading */
+.calculator__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 0.5rem;
+}
+
+.calculator__heading {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+}
+
+.calculator__title {
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.calculator__brand {
+  color: var(--color-muted);
+  font-weight: 400;
+}
+
+/* Light and dark theme control */
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 0;
+  background-color: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+
+.theme-toggle__track {
+  display: flex;
+  align-items: center;
+  width: 32px;
+  height: 17px;
+  border-radius: 9999px;
+  padding: 3px;
+  background-color: var(--color-border);
+}
+
+.theme-toggle__thumb {
+  display: block;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background-color: var(--color-text);
+  transition: transform 180ms var(--ease-out);
+}
+
+/* Container for the display and keypad */
+.calculator__body {
+  border: 1px solid var(--color-border);
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+}
+
+/* Calculator display */
+.calculator__screen {
+  overflow: hidden;
+  margin-bottom: 1.25rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.5rem;
+}
+
+.calculator__status-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 3.5rem;
+  border-bottom: 1px solid var(--color-border);
+  padding: 0.5rem 1.25rem;
+}
+
+.calculator__status-text {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+}
+
+.calculator__delete-key {
+  border: 1px solid var(--color-border);
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: rgba(255, 255, 255, 0.05);
+  color: inherit;
+  cursor: pointer;
+}
+
+.calculator__display {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 13rem;
+  font-family: "JetBrains Mono", monospace;
+  overflow-wrap: break-word;
+}
+
+.calculator__output {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex: 1;
+  min-height: 9.5rem;
+  padding: 1.5rem 2.5rem;
+  font-size: 4rem;
+  line-height: 1;
+}
+
+.calculator__indicators {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 3.5rem;
+  border-top: 1px solid var(--color-border);
+  padding: 1rem 1.25rem;
+  font-size: 0.8rem;
+  color: var(--color-muted);
+}
+
+/*
+ * Keypad styles can go below this comment.
+ * Every key starts with .calculator__key. Modifier classes such as
+ * .calculator__key--operator can add styles for a specific key type.
+ */

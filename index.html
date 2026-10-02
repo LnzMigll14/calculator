@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="A simple, keyboard-friendly calculator by LnzMigll."
+    />
+
+    <title>Calculator | LnzMigll</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+
+  <body>
+    <!-- Main page content -->
+    <main class="page">
+      <!--
+        Class naming pattern:
+        calculator__part describes a part of the calculator.
+        calculator__part--variation describes a special version of that part.
+      -->
+      <section class="calculator" aria-labelledby="calculator-title">
+        <!-- Calculator heading and theme control -->
+        <header class="calculator__header">
+          <div class="calculator__heading">
+            <h1 class="calculator__title" id="calculator-title">Calculator</h1>
+            <p class="calculator__brand">lnzmigll.dev</p>
+          </div>
+
+          <button
+            class="theme-toggle"
+            type="button"
+            aria-label="Switch to dark theme"
+            aria-pressed="false"
+          >
+            <span class="theme-toggle__track" aria-hidden="true">
+              <span class="theme-toggle__thumb"></span>
+            </span>
+            <span class="theme-toggle__label">Light</span>
+          </button>
+        </header>
+
+        <!-- Calculator body -->
+        <div class="calculator__body">
+          <!-- Status information and calculation result -->
+          <section class="calculator__screen" aria-label="Calculator display">
+            <header class="calculator__status-bar">
+              <p
+                class="calculator__status-text"
+                id="calculator-status"
+                role="status"
+                aria-live="polite"
+              >
+                Ready
+              </p>
+
+              <button
+                class="calculator__delete-key"
+                type="button"
+                data-key="Backspace"
+                data-action="delete"
+                aria-label="Delete last digit"
+              >
+                Del
+              </button>
+            </header>
+
+            <div class="calculator__display">
+              <output
+                class="calculator__output"
+                id="calculator-output"
+                aria-label="Calculator result"
+                aria-live="polite"
+                aria-atomic="true"
+              >
+                0
+              </output>
+
+              <div
+                class="calculator__indicators"
+                aria-label="Calculator input status"
+              >
+                <span>Input / Decimal</span>
+                <span>Keys / Active</span>
+              </div>
+            </div>
+          </section>
+
+          <!-- Calculator keypad -->
+          <div
+            class="calculator__keypad"
+            role="group"
+            aria-label="Calculator keypad"
+          >
+            <!-- Utility keys and division -->
+            <button
+              class="calculator__key calculator__key--utility"
+              type="button"
+              data-key="Escape"
+              data-action="clear"
+              aria-label="Clear calculator"
+            >
+              AC
+            </button>
+            <button
+              class="calculator__key calculator__key--utility"
+              type="button"
+              data-key="sign"
+              data-action="sign"
+              aria-label="Toggle positive or negative"
+            >
+              &plusmn;
+            </button>
+            <button
+              class="calculator__key calculator__key--utility"
+              type="button"
+              data-key="percent"
+              data-action="percent"
+              aria-label="Percentage"
+            >
+              %
+            </button>
+            <button
+              class="calculator__key calculator__key--operator"
+              type="button"
+              data-key="/"
+              data-action="operator"
+              data-value="/"
+              aria-label="Divide"
+            >
+              &divide;
+            </button>
+
+            <!-- Numbers 7–9 and multiplication -->
+            <button
+              class="calculator__key"
+              type="button"
+              data-key="7"
+              data-action="digit"
+              data-value="7"
+            >
+              7
+            </button>
+            <button
+              class="calculator__key"
+              type="button"
+              data-key="8"
+              data-action="digit"
+              data-value="8"
+            >
+              8
+            </button>
+            <button
+              class="calculator__key"
+              type="button"
+              data-key="9"
+              data-action="digit"
+              data-value="9"
+            >
+              9
+            </button>
+            <button
+              class="calculator__key calculator__key--operator"
+              type="button"
+              data-key="*"
+              data-action="operator"
+              data-value="*"
+              aria-label="Multiply"
+            >
+              &times;
+            </button>
+
+            <!-- Numbers 4–6 and subtraction -->
+            <button
+              class="calculator__key"
+              type="button"
+              data-key="4"
+              data-action="digit"
+              data-value="4"
+            >
+              4
+            </button>
+            <button
+              class="calculator__key"
+              type="button"
+              data-key="5"
+              data-action="digit"
+              data-value="5"
+            >
+              5
+            </button>
+            <button
+              class="calculator__key"
+              type="button"
+              data-key="6"
+              data-action="digit"
+              data-value="6"
+            >
+              6
+            </button>
+            <button
+              class="calculator__key calculator__key--operator"
+              type="button"
+              data-key="-"
+              data-action="operator"
+              data-value="-"
+              aria-label="Subtract"
+            >
+              &minus;
+            </button>
+
+            <!-- Numbers 1–3 and addition -->
+            <button
+              class="calculator__key"
+              type="button"
+              data-key="1"
+              data-action="digit"
+              data-value="1"
+            >
+              1
+            </button>
+            <button
+              class="calculator__key"
+              type="button"
+              data-key="2"
+              data-action="digit"
+              data-value="2"
+            >
+              2
+            </button>
+            <button
+              class="calculator__key"
+              type="button"
+              data-key="3"
+              data-action="digit"
+              data-value="3"
+            >
+              3
+            </button>
+            <button
+              class="calculator__key calculator__key--operator"
+              type="button"
+              data-key="+"
+              data-action="operator"
+              data-value="+"
+              aria-label="Add"
+            >
+              +
+            </button>
+
+            <!-- Zero, decimal, and result keys -->
+            <button
+              class="calculator__key calculator__key--zero"
+              type="button"
+              data-key="0"
+              data-action="digit"
+              data-value="0"
+            >
+              0
+            </button>
+            <button
+              class="calculator__key"
+              type="button"
+              data-key="."
+              data-action="decimal"
+              aria-label="Decimal point"
+            >
+              .
+            </button>
+            <button
+              class="calculator__key calculator__key--equals"
+              type="button"
+              data-key="="
+              data-action="equals"
+              aria-label="Equals"
+            >
+              =
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
