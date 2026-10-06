@@ -13,15 +13,9 @@
   </head>
 
   <body>
-    <!-- Main page content -->
     <main class="page">
-      <!--
-        Class naming pattern:
-        calculator__part describes a part of the calculator.
-        calculator__part--variation describes a special version of that part.
-      -->
       <section class="calculator" aria-labelledby="calculator-title">
-        <!-- Calculator heading and theme control -->
+        <!-- Calculator header -->
         <header class="calculator__header">
           <div class="calculator__heading">
             <h1 class="calculator__title" id="calculator-title">Calculator</h1>
@@ -31,7 +25,7 @@
           <button
             class="theme-toggle"
             type="button"
-            aria-label="Switch to dark theme"
+            aria-label="Switch to light theme"
             aria-pressed="false"
           >
             <span class="theme-toggle__track" aria-hidden="true">
@@ -41,13 +35,15 @@
           </button>
         </header>
 
-        <!-- Calculator body -->
-        <div class="calculator__body">
-          <!-- Status information and calculation result -->
-          <section class="calculator__screen" aria-label="Calculator display">
-            <header class="calculator__status-bar">
+        <!-- Main calculator controls -->
+        <section
+          class="calculator__controls"
+          aria-label="Calculator controls"
+        >
+          <div class="calculator__screen">
+            <div class="calculator__status">
               <p
-                class="calculator__status-text"
+                class="calculator__status-message"
                 id="calculator-status"
                 role="status"
                 aria-live="polite"
@@ -56,7 +52,7 @@
               </p>
 
               <button
-                class="calculator__delete-key"
+                class="calculator__delete-button"
                 type="button"
                 data-key="Backspace"
                 data-action="delete"
@@ -64,11 +60,12 @@
               >
                 Del
               </button>
-            </header>
+            </div>
 
             <div class="calculator__display">
+              <!-- aria-live announces updated results to screen readers. -->
               <output
-                class="calculator__output"
+                class="calculator__result"
                 id="calculator-output"
                 aria-label="Calculator result"
                 aria-live="polite"
@@ -78,14 +75,14 @@
               </output>
 
               <div
-                class="calculator__indicators"
+                class="calculator__display-info"
                 aria-label="Calculator input status"
               >
                 <span>Input / Decimal</span>
                 <span>Keys / Active</span>
               </div>
             </div>
-          </section>
+          </div>
 
           <!-- Calculator keypad -->
           <div
@@ -93,7 +90,11 @@
             role="group"
             aria-label="Calculator keypad"
           >
-            <!-- Utility keys and division -->
+            <!--
+              JavaScript reads data-action to choose a behavior and data-value
+              to get the digit or operator associated with a button.
+            -->
+            <!-- Utility keys -->
             <button
               class="calculator__key calculator__key--utility"
               type="button"
@@ -132,7 +133,7 @@
               &divide;
             </button>
 
-            <!-- Numbers 7–9 and multiplication -->
+            <!-- Number keys: 7 to 9 -->
             <button
               class="calculator__key"
               type="button"
@@ -171,7 +172,7 @@
               &times;
             </button>
 
-            <!-- Numbers 4–6 and subtraction -->
+            <!-- Number keys: 4 to 6 -->
             <button
               class="calculator__key"
               type="button"
@@ -210,7 +211,7 @@
               &minus;
             </button>
 
-            <!-- Numbers 1–3 and addition -->
+            <!-- Number keys: 1 to 3 -->
             <button
               class="calculator__key"
               type="button"
@@ -249,7 +250,7 @@
               +
             </button>
 
-            <!-- Zero, decimal, and result keys -->
+            <!-- Bottom row -->
             <button
               class="calculator__key calculator__key--zero"
               type="button"
@@ -278,8 +279,28 @@
               =
             </button>
           </div>
-        </div>
+        </section>
+
+        <!-- Recent calculations -->
+        <aside class="history-panel" aria-labelledby="history-title">
+          <header class="history-panel__header">
+            <h2 class="history-panel__title" id="history-title">History</h2>
+            <span class="history-panel__subtitle">Last three</span>
+          </header>
+
+          <div class="history-panel__content">
+            <p class="history-panel__empty-message">No calculations yet.</p>
+          </div>
+
+          <footer class="history-panel__footer">
+            <p class="history-panel__shortcut">
+              <kbd>Enter</kbd> equals / <kbd>Esc</kbd> clears
+            </p>
+          </footer>
+        </aside>
       </section>
     </main>
+
+    <script src="script.js"></script>
   </body>
 </html>

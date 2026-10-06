@@ -1,55 +1,72 @@
-/* Import the fonts used by the calculator. */
 @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Space+Grotesk:wght@300..700&display=swap");
 
-/* Reusable values make colors and animation timing easier to update. */
+/* Design tokens keep repeated fonts, colors, radii, and timing in one place. */
 :root {
-  --color-background: #0c0c0f;
+  --font-primary: "Space Grotesk", sans-serif;
+  --font-monospace: "JetBrains Mono", monospace;
+
+  --color-page: #0c0c0f;
+  --color-panel: #151519;
   --color-text: #ffffff;
-  --color-muted: rgba(255, 255, 255, 0.6);
+  --color-text-muted: rgba(255, 255, 255, 0.6);
   --color-border: rgba(255, 255, 255, 0.18);
-  --ease-out: ease-out;
+  --color-key-border: #3b3c42;
+  --color-key-border-hover: #55565d;
+
+  --radius-small: 0.5rem;
+  --radius-medium: 0.625rem;
+  --radius-large: 0.75rem;
+
+  --transition-fast: 120ms ease-out;
 }
 
-/* Apply predictable sizing to every element. */
-* {
+/* Include borders and padding inside an element's declared width and height. */
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
-/* Base page styles */
 html {
   min-width: 320px;
-  background-color: var(--color-background);
+  background-color: var(--color-page);
 }
 
 body {
+  min-height: 100vh;
   margin: 0;
+  background-color: var(--color-page);
   color: var(--color-text);
-  font-family: "Space Grotesk", sans-serif;
-  transition:
-    background-color 180ms var(--ease-out),
-    color 180ms var(--ease-out);
+  font-family: var(--font-primary);
 }
 
 button {
   font: inherit;
 }
 
-/* Center the calculator on the page. */
+button:focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: 3px;
+}
+
+/* Page layout */
 .page {
   display: flex;
-  align-items: center;
   justify-content: center;
   min-height: 100vh;
   padding: 1rem;
 }
 
-/* Main calculator component */
+/* The first grid column holds the controls; the second holds history. */
 .calculator {
-  width: min(100%, 790px);
+  display: grid;
+  grid-template-columns: minmax(0, 49.375rem) 11.875rem;
+  width: min(100%, 61.25rem);
 }
 
-/* Calculator heading */
+/* Calculator header */
 .calculator__header {
+  grid-column: 1 / -1;
   display: flex;
   align-items: baseline;
   justify-content: space-between;
@@ -64,22 +81,28 @@ button {
   gap: 1rem;
 }
 
+.calculator__title,
+.calculator__brand {
+  margin: 0;
+}
+
 .calculator__title {
   font-weight: 700;
   text-transform: uppercase;
 }
 
 .calculator__brand {
-  color: var(--color-muted);
+  color: var(--color-text-muted);
   font-weight: 400;
 }
 
-/* Light and dark theme control */
+/* The theme toggle is a separate component because it can work independently. */
 .theme-toggle {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   border: 0;
+  padding: 0;
   background-color: transparent;
   color: inherit;
   cursor: pointer;
@@ -88,38 +111,39 @@ button {
 .theme-toggle__track {
   display: flex;
   align-items: center;
-  width: 32px;
-  height: 17px;
+  width: 2rem;
+  height: 1.0625rem;
   border-radius: 9999px;
-  padding: 3px;
+  padding: 0.1875rem;
   background-color: var(--color-border);
 }
 
 .theme-toggle__thumb {
   display: block;
-  width: 11px;
-  height: 11px;
+  width: 0.6875rem;
+  height: 0.6875rem;
   border-radius: 50%;
   background-color: var(--color-text);
-  transition: transform 180ms var(--ease-out);
+  transition: transform var(--transition-fast);
 }
 
-/* Container for the display and keypad */
-.calculator__body {
+/* This panel groups the screen and keypad into the main calculator surface. */
+.calculator__controls {
+  min-width: 0;
   border: 1px solid var(--color-border);
-  border-radius: 0.5rem;
+  border-radius: var(--radius-large) 0 0 var(--radius-large);
   padding: 1.5rem;
 }
 
-/* Calculator display */
+/* Calculator screen */
 .calculator__screen {
   overflow: hidden;
   margin-bottom: 1.25rem;
   border: 1px solid var(--color-border);
-  border-radius: 0.5rem;
+  border-radius: var(--radius-small);
 }
 
-.calculator__status-bar {
+.calculator__status {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -128,16 +152,16 @@ button {
   padding: 0.5rem 1.25rem;
 }
 
-.calculator__status-text {
+.calculator__status-message {
   margin: 0;
-  color: var(--color-muted);
+  color: var(--color-text-muted);
   font-size: 0.8rem;
   text-transform: uppercase;
 }
 
-.calculator__delete-key {
+.calculator__delete-button {
   border: 1px solid var(--color-border);
-  border-radius: 0.5rem;
+  border-radius: var(--radius-small);
   padding: 0.5rem 1rem;
   background-color: rgba(255, 255, 255, 0.05);
   color: inherit;
@@ -147,36 +171,224 @@ button {
 .calculator__display {
   display: flex;
   flex-direction: column;
-  width: 100%;
   min-height: 13rem;
-  font-family: "JetBrains Mono", monospace;
-  overflow-wrap: break-word;
+  font-family: var(--font-monospace);
+  overflow-wrap: anywhere;
 }
 
-.calculator__output {
+.calculator__result {
   display: flex;
+  flex: 1;
   align-items: center;
   justify-content: flex-end;
-  flex: 1;
+  min-width: 0;
   min-height: 9.5rem;
   padding: 1.5rem 2.5rem;
   font-size: 4rem;
   line-height: 1;
 }
 
-.calculator__indicators {
+.calculator__display-info {
   display: flex;
   align-items: center;
   justify-content: space-between;
   min-height: 3.5rem;
   border-top: 1px solid var(--color-border);
   padding: 1rem 1.25rem;
+  color: var(--color-text-muted);
   font-size: 0.8rem;
-  color: var(--color-muted);
 }
 
-/*
- * Keypad styles can go below this comment.
- * Every key starts with .calculator__key. Modifier classes such as
- * .calculator__key--operator can add styles for a specific key type.
- */
+/* Four equal grid columns keep every calculator key aligned. */
+.calculator__keypad {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+
+.calculator__key {
+  min-height: 4.625rem;
+  border: 1px solid var(--color-key-border);
+  border-radius: var(--radius-medium);
+  background: linear-gradient(180deg, #202126 0%, #17181c 100%);
+  box-shadow:
+    0 4px 0 #34353b,
+    0 6px 8px rgba(0, 0, 0, 0.35);
+  color: #f4f4f4;
+  font-size: 1.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    transform 80ms ease,
+    box-shadow 80ms ease,
+    border-color var(--transition-fast);
+}
+
+.calculator__key:hover {
+  border-color: var(--color-key-border-hover);
+}
+
+.calculator__key:active {
+  transform: translateY(3px);
+  box-shadow:
+    0 1px 0 #34353b,
+    0 2px 3px rgba(0, 0, 0, 0.3);
+}
+
+.calculator__key--utility {
+  color: #c5c5ca;
+}
+
+.calculator__key--zero {
+  grid-column: span 2;
+  padding-left: 1.5rem;
+  text-align: left;
+}
+
+.calculator__key--equals {
+  border-color: #d9d9dc;
+  background: linear-gradient(180deg, #ffffff, #e5e5e7);
+  box-shadow:
+    0 5px 0 #a7a7aa,
+    0 8px 14px rgba(0, 0, 0, 0.25);
+  color: #080808;
+}
+
+.calculator__key--equals:active {
+  box-shadow:
+    0 1px 0 #a7a7aa,
+    0 2px 3px rgba(0, 0, 0, 0.25);
+}
+
+/* History stretches beside the controls and keeps its footer at the bottom. */
+.history-panel {
+  display: flex;
+  flex-direction: column;
+  min-height: 37.5rem;
+  border: 1px solid var(--color-border);
+  border-left: 0;
+  border-radius: 0 var(--radius-large) var(--radius-large) 0;
+  background-color: var(--color-panel);
+}
+
+.history-panel__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--color-border);
+  padding: 1.125rem 1rem;
+}
+
+.history-panel__title {
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.history-panel__subtitle {
+  color: var(--color-text-muted);
+  font-family: var(--font-monospace);
+  font-size: 0.7rem;
+}
+
+.history-panel__content {
+  flex: 1;
+  padding: 1.125rem 1rem;
+}
+
+.history-panel__item {
+  margin: 0 0 0.75rem;
+  color: var(--color-text);
+  font-family: var(--font-monospace);
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+
+.history-panel__item:last-child {
+  margin-bottom: 0;
+}
+
+.history-panel__empty-message,
+.history-panel__shortcut {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-family: var(--font-monospace);
+  font-size: 0.7rem;
+}
+
+.history-panel__footer {
+  margin: 0 1rem;
+  border-top: 1px solid var(--color-border);
+  padding: 1rem 0;
+}
+
+.history-panel__shortcut {
+  line-height: 1.5;
+}
+
+.history-panel__shortcut kbd {
+  color: var(--color-text);
+  font-family: inherit;
+  font-weight: 500;
+}
+
+/* Stack history below the calculator when two columns become too narrow. */
+@media (max-width: 800px) {
+  .calculator {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .calculator__header {
+    grid-column: 1;
+  }
+
+  .calculator__controls {
+    border-radius: var(--radius-large) var(--radius-large) 0 0;
+  }
+
+  .history-panel {
+    min-height: 12rem;
+    border-top: 0;
+    border-left: 1px solid var(--color-border);
+    border-radius: 0 0 var(--radius-large) var(--radius-large);
+  }
+}
+
+@media (max-width: 560px) {
+  .page {
+    padding: 0.75rem;
+  }
+
+  .calculator__header {
+    align-items: flex-start;
+  }
+
+  .calculator__heading {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .calculator__title {
+    font-size: 1.5rem;
+  }
+
+  .calculator__controls {
+    padding: 1rem;
+  }
+
+  .calculator__key {
+    min-height: 4rem;
+    font-size: 1.25rem;
+  }
+
+  .calculator__result {
+    padding: 1rem;
+    font-size: 3rem;
+  }
+
+  .calculator__display-info {
+    gap: 1rem;
+    font-size: 0.7rem;
+  }
+}
