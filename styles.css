@@ -68,7 +68,7 @@ button:focus-visible {
 .calculator__header {
   grid-column: 1 / -1;
   display: flex;
-  align-items: baseline;
+  align-items: flex-end;
   justify-content: space-between;
   margin-bottom: 1.5rem;
   border-bottom: 1px solid var(--color-border);
