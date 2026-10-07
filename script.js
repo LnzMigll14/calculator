@@ -8,6 +8,8 @@ const calculator = document.querySelector(".calculator");
 const output = document.querySelector("#calculator-output");
 const statusMessage = document.querySelector("#calculator-status");
 const historyContainer = document.querySelector(".history-panel__content");
+const themeToggle = document.querySelector(".theme-toggle");
+const themeLabel = document.querySelector(".theme-toggle__label");
 
 /* -------------------------------------------------------------------------- */
 /* Configuration                                                              */
@@ -16,6 +18,15 @@ const historyContainer = document.querySelector(".history-panel__content");
 
 const MAX_HISTORY_ITEMS = 3;
 const ERROR_DISPLAY = "Error";
+const THEME_STORAGE_KEY = "calculator-theme";
+
+/* Keyboard aliases connect familiar keys to the data-key values in the HTML. */
+const KEY_ALIASES = {
+  Enter: "=",
+  x: "*",
+  X: "*",
+  "%": "percent",
+};
 
 /* -------------------------------------------------------------------------- */
 /* Calculator state                                                           */
@@ -39,6 +50,11 @@ const recentCalculations = [];
 /* -------------------------------------------------------------------------- */
 
 calculator.addEventListener("click", handleCalculatorClick);
+document.addEventListener("keydown", handleKeyboardInput);
+themeToggle.addEventListener("click", toggleColorMode);
+
+// Apply the saved preference as soon as the page controls are available.
+loadSavedTheme();
 
 function handleCalculatorClick(event) {
   const button = event.target.closest("button[data-action]");
@@ -81,6 +97,19 @@ function handleCalculatorClick(event) {
       showResult();
       break;
   }
+}
+
+function handleKeyboardInput(event) {
+  const calculatorKey = KEY_ALIASES[event.key] ?? event.key;
+  const matchingButton = Array.from(
+    calculator.querySelectorAll("[data-key]"),
+  ).find((button) => button.dataset.key === calculatorKey);
+
+  if (!matchingButton) return;
+
+  // Stop keys such as Backspace from triggering browser navigation.
+  event.preventDefault();
+  matchingButton.click();
 }
 
 /* -------------------------------------------------------------------------- */
@@ -367,4 +396,55 @@ function renderCalculationHistory() {
 
     historyContainer.append(historyItem);
   });
+}
+
+/* -------------------------------------------------------------------------- */
+/* Theme preference                                                           */
+/* One function applies the visual and accessible state for both load/click.  */
+/* -------------------------------------------------------------------------- */
+
+function toggleColorMode() {
+  const root = document.documentElement;
+  const isLightMode = !root.classList.contains("theme--light");
+
+  applyTheme(isLightMode);
+  saveThemePreference(isLightMode ? "light" : "dark");
+}
+
+function loadSavedTheme() {
+  const savedTheme = readThemePreference();
+  const isLightMode = savedTheme === "light";
+
+  applyTheme(isLightMode);
+}
+
+function applyTheme(isLightMode) {
+  const root = document.documentElement;
+
+  root.classList.toggle("theme--light", isLightMode);
+
+  themeToggle.setAttribute("aria-pressed", String(isLightMode));
+
+  themeToggle.setAttribute(
+    "aria-label",
+    isLightMode ? "Switch to dark theme" : "Switch to light theme",
+  );
+
+  themeLabel.textContent = isLightMode ? "Dark" : "Light";
+}
+
+function saveThemePreference(themeName) {
+  try {
+    localStorage.setItem(THEME_STORAGE_KEY, themeName);
+  } catch {
+    // The theme still works when browser privacy settings block storage.
+  }
+}
+
+function readThemePreference() {
+  try {
+    return localStorage.getItem(THEME_STORAGE_KEY);
+  } catch {
+    return null;
+  }
 }

@@ -10,14 +10,57 @@
   --color-text: #ffffff;
   --color-text-muted: rgba(255, 255, 255, 0.6);
   --color-border: rgba(255, 255, 255, 0.18);
+  --color-control-background: rgba(255, 255, 255, 0.05);
   --color-key-border: #3b3c42;
   --color-key-border-hover: #55565d;
+  --color-key-top: #202126;
+  --color-key-bottom: #17181c;
+  --color-key-text: #f4f4f4;
+  --color-key-shadow: #34353b;
+  --color-key-shadow-soft: rgba(0, 0, 0, 0.35);
+  --color-utility-key-text: #c5c5ca;
+  --color-equals-border: #d9d9dc;
+  --color-equals-top: #ffffff;
+  --color-equals-bottom: #e5e5e7;
+  --color-equals-text: #080808;
+  --color-equals-shadow: #a7a7aa;
+  --color-equals-shadow-soft: rgba(0, 0, 0, 0.25);
 
   --radius-small: 0.5rem;
   --radius-medium: 0.625rem;
   --radius-large: 0.75rem;
 
   --transition-fast: 120ms ease-out;
+}
+
+/*
+ * Light-theme boilerplate
+ * JavaScript only needs to toggle the "theme--light" class on <html>.
+ * Components keep using the same variables; only the variable values change.
+ */
+:root.theme--light {
+  color-scheme: light;
+
+  --color-page: #f4f2ed;
+  --color-panel: #ffffff;
+  --color-text: #17171a;
+  --color-text-muted: rgba(23, 23, 26, 0.62);
+  --color-border: rgba(23, 23, 26, 0.18);
+  --color-control-background: rgba(23, 23, 26, 0.05);
+  --color-key-border: #c9c6bf;
+  --color-key-border-hover: #a8a49c;
+  --color-key-top: #ffffff;
+  --color-key-bottom: #e9e7e1;
+  --color-key-text: #17171a;
+  --color-key-shadow: #c4c0b8;
+  --color-key-shadow-soft: rgba(23, 23, 26, 0.18);
+  --color-utility-key-text: #55545a;
+  --color-equals-border: #17171a;
+  --color-equals-top: #2b2b30;
+  --color-equals-bottom: #17171a;
+  --color-equals-text: #ffffff;
+  --color-equals-shadow: #000000;
+  --color-equals-shadow-soft: rgba(23, 23, 26, 0.24);
 }
 
 /* Include borders and padding inside an element's declared width and height. */
@@ -30,6 +73,8 @@
 html {
   min-width: 320px;
   background-color: var(--color-page);
+  color-scheme: dark;
+  transition: background-color var(--transition-fast);
 }
 
 body {
@@ -38,6 +83,9 @@ body {
   background-color: var(--color-page);
   color: var(--color-text);
   font-family: var(--font-primary);
+  transition:
+    background-color var(--transition-fast),
+    color var(--transition-fast);
 }
 
 button {
@@ -127,6 +175,11 @@ button:focus-visible {
   transition: transform var(--transition-fast);
 }
 
+/* Move the switch thumb when JavaScript activates the light theme. */
+:root.theme--light .theme-toggle__thumb {
+  transform: translateX(0.9375rem);
+}
+
 /* This panel groups the screen and keypad into the main calculator surface. */
 .calculator__controls {
   min-width: 0;
@@ -163,7 +216,7 @@ button:focus-visible {
   border: 1px solid var(--color-border);
   border-radius: var(--radius-small);
   padding: 0.5rem 1rem;
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: var(--color-control-background);
   color: inherit;
   cursor: pointer;
 }
@@ -210,11 +263,15 @@ button:focus-visible {
   min-height: 4.625rem;
   border: 1px solid var(--color-key-border);
   border-radius: var(--radius-medium);
-  background: linear-gradient(180deg, #202126 0%, #17181c 100%);
+  background: linear-gradient(
+    180deg,
+    var(--color-key-top) 0%,
+    var(--color-key-bottom) 100%
+  );
   box-shadow:
-    0 4px 0 #34353b,
-    0 6px 8px rgba(0, 0, 0, 0.35);
-  color: #f4f4f4;
+    0 4px 0 var(--color-key-shadow),
+    0 6px 8px var(--color-key-shadow-soft);
+  color: var(--color-key-text);
   font-size: 1.5rem;
   font-weight: 600;
   cursor: pointer;
@@ -231,12 +288,12 @@ button:focus-visible {
 .calculator__key:active {
   transform: translateY(3px);
   box-shadow:
-    0 1px 0 #34353b,
-    0 2px 3px rgba(0, 0, 0, 0.3);
+    0 1px 0 var(--color-key-shadow),
+    0 2px 3px var(--color-key-shadow-soft);
 }
 
 .calculator__key--utility {
-  color: #c5c5ca;
+  color: var(--color-utility-key-text);
 }
 
 .calculator__key--zero {
@@ -246,18 +303,22 @@ button:focus-visible {
 }
 
 .calculator__key--equals {
-  border-color: #d9d9dc;
-  background: linear-gradient(180deg, #ffffff, #e5e5e7);
+  border-color: var(--color-equals-border);
+  background: linear-gradient(
+    180deg,
+    var(--color-equals-top),
+    var(--color-equals-bottom)
+  );
   box-shadow:
-    0 5px 0 #a7a7aa,
-    0 8px 14px rgba(0, 0, 0, 0.25);
-  color: #080808;
+    0 5px 0 var(--color-equals-shadow),
+    0 8px 14px var(--color-equals-shadow-soft);
+  color: var(--color-equals-text);
 }
 
 .calculator__key--equals:active {
   box-shadow:
-    0 1px 0 #a7a7aa,
-    0 2px 3px rgba(0, 0, 0, 0.25);
+    0 1px 0 var(--color-equals-shadow),
+    0 2px 3px var(--color-equals-shadow-soft);
 }
 
 /* History stretches beside the controls and keeps its footer at the bottom. */
